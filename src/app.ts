@@ -1,5 +1,6 @@
 import express from 'express';
 import middleware from './middleware';
+import './database/mongoose';
 
 const app = express();
 
