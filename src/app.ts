@@ -14,4 +14,7 @@ app.use(express.json())
 // Session Middleware
 app.use(middleware.session)
 
+// Error Handling Middleware to Catch all Errors
+app.use(middleware.errorHandler)
+
 export default app;

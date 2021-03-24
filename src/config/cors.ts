@@ -1,4 +1,5 @@
 import { CorsOptions } from "cors"
+import ApiError from '../error/ApiError';
 
 const whitelist = new Set(['https://example.com']);
 const config: CorsOptions = {
@@ -6,7 +7,7 @@ const config: CorsOptions = {
     //     if(whitelist.has(origin!)){
     //         cb(null, true)
     //     } else{
-    //         cb(new Error('Not allowed by CORS...'))
+    //         cb(ApiError.internal('Not Allowed by CORS'))
     //     }
     // },
     origin: false,
