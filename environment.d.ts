@@ -7,8 +7,17 @@ declare global {
           MONGODB_URL: string;
           REDIS_HOST: string;
           REDIS_PORT: number;
+          SESSION_SECERT: string;
+          SESSION_EXPIRY: number;
+          CACHE_EXPIRY: number;
        }
     }
+ }
+
+ declare module 'express-session' {
+   interface SessionData {
+     userId: string;
+   }
  }
 
  export {}
