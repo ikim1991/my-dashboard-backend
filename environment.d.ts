@@ -10,6 +10,7 @@ declare global {
           SESSION_SECERT: string;
           SESSION_EXPIRY: number;
           CACHE_EXPIRY: number;
+          HASH_SALT: number;
        }
     }
  }

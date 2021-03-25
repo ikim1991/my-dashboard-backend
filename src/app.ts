@@ -1,6 +1,7 @@
 import express from 'express';
 import middleware from './middleware';
 import './database/mongoose';
+import route from './route';
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(express.json())
 
 // Session Middleware
 app.use(middleware.session)
+
+// Router End Points
+app.use(route.user)
 
 // Error Handling Middleware to Catch all Errors
 app.use(middleware.errorHandler)
