@@ -19,8 +19,8 @@ interface PostingIDoc extends PostingsI, Document{
 }
 
 interface PostingIModel extends Model<PostingIDoc>{
-    getJobPostings(email: string): PostingsI[] | ApiError;
-    updateJobPostings(_id: string): PostingsI[] | ApiError;
+    getJobPostings(userId: string): PostingsI[] | ApiError;
+    updateJobPostings(userId: string, postings: JobsI[]): PostingsI[] | ApiError;
 }
 
 const postingSchema = new mongoose.Schema({
