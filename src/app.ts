@@ -17,6 +17,9 @@ app.use(middleware.session)
 
 // Router End Points
 app.use(route.user)
+app.use(route.financial)
+app.use(route.postings)
+app.use(route.task)
 
 // Error Handling Middleware to Catch all Errors
 app.use(middleware.errorHandler)

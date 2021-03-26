@@ -4,9 +4,9 @@ import authenticate from '../middleware/auth';
 
 const router = express.Router();
 
-router.post('stockprice', authenticate, setStockPrices)
-router.post('news', authenticate, fetchFinancialNews)
-router.get('stockprice', authenticate, loadStockPrices)
-router.get('news', authenticate, loadFinancialNews)
+router.post('/stockprice', authenticate, setStockPrices)
+router.post('/news', authenticate, fetchFinancialNews)
+router.get('/stockprice', authenticate, loadStockPrices)
+router.get('/news', authenticate, loadFinancialNews)
 
 export default router;

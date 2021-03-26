@@ -15,6 +15,7 @@ interface TaskIDoc extends TaskI, Document{
 interface TaskIModel extends Model<TaskIDoc>{
     createNewTask(description: string, deadline: Date, userId: string): TaskI[] | ApiError
     toggleTaskComplete(id: string, userId: string): TaskI[] | ApiError
+    getTasks(userId: string): TaskI[] | ApiError
     deleteTask(id: string, userId: string): TaskI[] | ApiError
 }
 
@@ -74,6 +75,17 @@ taskSchema.static('toggleTaskComplete', async (id, userId) => {
 
     }catch(err){
         return ApiError.badRequest('Error in Completing Task..')
+    }
+})
+
+taskSchema.static('getTasks', async (userId) => {
+    try{
+        const tasks = await Task.find({ user: userId }).sort({deadline: 1})
+
+        return tasks
+
+    }catch(err){
+        return ApiError.badRequest('Error in Getting Tasks...')
     }
 })
 
