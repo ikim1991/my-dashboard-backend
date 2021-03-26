@@ -1,21 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
 import ApiError from '../error/ApiError';
 
-interface StockPricesI{
-    ticker: string;
-    price: string;
-    change: string;
-    status: string;
-    company: string;
-}
-
-interface NewsI{
-    title: string;
-    link: string;
-    date: string;
-    description: string;
-}
-
 interface TickersI{
     ticker: string;
     exchange: string;
@@ -24,8 +9,6 @@ interface TickersI{
 interface FinancialI{
     user: string;
     tickers: TickersI[]
-    stockPrices: StockPricesI[];
-    news: NewsI[];
 }
 
 interface FinancialIDoc extends FinancialI, Document{
@@ -33,9 +16,8 @@ interface FinancialIDoc extends FinancialI, Document{
 }
 
 interface FinancialIModel extends Model<FinancialIDoc>{
-    getStockPrices(userId: string): StockPricesI[] | ApiError;
-    getFinancialNews(userId: string): NewsI[] | ApiError;
-    updateTickerInfo(userId: string, tickers: TickersI[], stockPrices: StockPricesI[], news: NewsI[]): FinancialI | ApiError;
+    updateTickerInfo(userId: string, tickers: TickersI[]): TickersI[] | ApiError;
+    getTickerInfo(userId: string): TickersI[] | ApiError;
 }
 
 const financialSchema = new mongoose.Schema({
@@ -44,43 +26,10 @@ const financialSchema = new mongoose.Schema({
         required: true,
         ref: "User"
       },
-      tickers: [],
-      stockPrices: [],
-      news: []
+      tickers: []
 })
 
-financialSchema.static('getStockPrices', async (userId) => {
-    try{
-        const financials = await Financial.findOne({ user: userId })
-
-        if(!financials){
-            return ApiError.notFound('User not Found...')
-        }
-
-        return financials.stockPrices
-
-    }catch(err){
-        return ApiError.badRequest('Could not Get Stock Prices...')
-    }
-})
-
-financialSchema.static('getFinancialNews', async (userId) => {
-    try{
-
-        const financials = await Financial.findOne({ user: userId })
-
-        if(!financials){
-            return ApiError.notFound('User not Found...')
-        }
-
-        return financials.news
-
-    }catch(err){
-        return ApiError.badRequest('Could not Get Stock Prices...')
-    }
-})
-
-financialSchema.static('updateTickerInfo', async (userId, tickers, stockPrices, news) => {
+financialSchema.static('updateTickerInfo', async (userId, tickers) => {
     try{
         const financials = await Financial.findOne({ user: userId })
 
@@ -90,20 +39,30 @@ financialSchema.static('updateTickerInfo', async (userId, tickers, stockPrices, 
 
         financials.tickers = tickers
         financials.markModified('tickers')
-        financials.stockPrices = stockPrices
-        financials.markModified('stockPrices')
-        financials.news = news
-        financials.markModified('news')
 
         await financials.save()
 
-        return financials
+        return financials.tickers
 
     }catch(err){
         return ApiError.badRequest('Could not Update Ticker Info...')
     }
 })
 
+financialSchema.static('getTickerInfo', async (userId) => {
+    try{
+        const financials = await Financial.findOne({ user: userId })
+
+        if(!financials){
+            return ApiError.notFound('User not Found...')
+        }
+
+        return financials.tickers
+
+    }catch(err){
+        return ApiError.badRequest('Could not Get Ticker Info...')
+    }
+})
 
 const Financial = mongoose.model<FinancialIDoc, FinancialIModel>("Financial", financialSchema)
 export default Financial;

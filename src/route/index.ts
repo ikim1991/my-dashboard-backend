@@ -1,7 +1,9 @@
 import user from './user';
+import financial from './financial';
 
 const route = {
-    user
+    user,
+    financial
 }
 
 export default route;
