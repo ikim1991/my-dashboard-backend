@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 import ApiError from '../error/ApiError';
 import { hash } from 'bcryptjs'
 
