@@ -16,12 +16,14 @@ interface NewsI{
     description: string;
 }
 
+interface TickersI{
+    ticker: string;
+    exchange: string;
+}
+
 interface FinancialI{
     user: string;
-    tickers: {
-        ticker: string,
-        exchange: string
-    }[];
+    tickers: TickersI[]
     stockPrices: StockPricesI[];
     news: NewsI[];
 }
@@ -31,16 +33,16 @@ interface FinancialIDoc extends FinancialI, Document{
 }
 
 interface FinancialIModel extends Model<FinancialIDoc>{
-    getStockPrices(email: string): StockPricesI[] | ApiError;
-    getFinancialNews(_id: string): NewsI[] | ApiError;
-    updateTickerInfo(_id: string): FinancialI | ApiError;
+    getStockPrices(userId: string): StockPricesI[] | ApiError;
+    getFinancialNews(userId: string): NewsI[] | ApiError;
+    updateTickerInfo(userId: string, tickers: TickersI[], stockPrices: StockPricesI[], news: NewsI[]): FinancialI | ApiError;
 }
 
 const financialSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "Users"
+        ref: "User"
       },
       tickers: [],
       stockPrices: [],
