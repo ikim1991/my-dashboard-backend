@@ -6,9 +6,9 @@ const RedisStore = connectRedis(session)
 
 const sessionsConfig: SessionOptions = {
    store: new RedisStore({ client: redisClient }),
-   secret: process.env.SESSION_SECRET!,
    saveUninitialized: false,
    resave: false,
+   secret: 'SECRET_KEY',
    name: 'sessionID',
    cookie: {
        secure: false,

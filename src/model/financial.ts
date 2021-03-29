@@ -31,10 +31,12 @@ const financialSchema = new mongoose.Schema({
 
 financialSchema.static('updateTickerInfo', async (userId, tickers) => {
     try{
-        const financials = await Financial.findOne({ user: userId })
+        let financials = await Financial.findOne({ user: userId })
 
         if(!financials){
-            return ApiError.notFound('User not Found...')
+            financials = await Financial.create({ user: userId, tickers })
+
+            return financials.tickers
         }
 
         financials.tickers = tickers

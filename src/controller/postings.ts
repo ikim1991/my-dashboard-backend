@@ -8,18 +8,17 @@ export const updateJobPosts = async (req: Request, res: Response, next: NextFunc
     try{
 
         const { userId } = req.session
-        const { cities } = req.body
 
-        const jobs = await getJobPosts(cities)
-
-        if(jobs instanceof ApiError){
-            return next(jobs)
-        }
-
-        const postings = await Posting.updateJobPostings(userId!, cities)
+        const postings = await getJobPosts(req.body)
 
         if(postings instanceof ApiError){
             return next(postings)
+        }
+
+        const jobs = await Posting.updateJobPostings(userId!, postings)
+
+        if(jobs instanceof ApiError){
+            return next(jobs)
         }
 
         res.send(postings)

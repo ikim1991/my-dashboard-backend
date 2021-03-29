@@ -49,10 +49,12 @@ postingSchema.static('getJobPostings', async (userId) => {
 
 postingSchema.static('updateJobPostings', async (userId, postings) => {
     try{
-        const posts = await Posting.findOne({ user: userId })
+        let posts = await Posting.findOne({ user: userId })
 
         if(!posts){
-            return ApiError.notFound('User Not Found...')
+            posts = await Posting.create({ user: userId, postings })
+
+            return posts.postings
         }
 
         posts.postings = postings

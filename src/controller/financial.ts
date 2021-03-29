@@ -8,15 +8,14 @@ export const setStockPrices = async (req: Request, res: Response, next: NextFunc
     try{
 
         const { userId } = req.session
-        const { tickers } = req.body
 
-        const stockPrices = await getStockTickers(tickers)
+        const stockPrices = await getStockTickers(req.body)
 
         if(stockPrices instanceof ApiError){
             return next(stockPrices)
         }
 
-        const update = await Financial.updateTickerInfo(userId!, tickers)
+        const update = await Financial.updateTickerInfo(userId!, req.body)
 
         if(update instanceof ApiError){
             return next(update)
@@ -54,9 +53,8 @@ export const loadStockPrices = async (req: Request, res: Response, next: NextFun
 
 export const fetchFinancialNews = async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const { tickers } = req.body
 
-        const news = await getFinancialNews(tickers)
+        const news = await getFinancialNews(req.body)
 
         if(news instanceof ApiError){
             return next(news)

@@ -19,7 +19,7 @@ const getStockTickers = async (tickers: (tickersI | tickersI[])) => {
     try{
         let stockTickers: tickersI[];
         let stockPrices: stockPricesI[] = [];
-
+        
         if(!Array.isArray(tickers)){
             stockTickers = [tickers]
         } else{

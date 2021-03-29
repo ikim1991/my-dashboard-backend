@@ -36,7 +36,7 @@ const taskSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "Users"
+        ref: "User"
     }
 })
 
@@ -44,7 +44,7 @@ taskSchema.static('createNewTask', async (description, deadline, userId) => {
     try{
         await Task.create({ description, deadline, user: userId })
 
-        const tasks = await Task.find({ userId }).sort({deadline: 1})
+        const tasks = await Task.find({ user: userId }).sort({deadline: 1})
 
         return tasks
 
